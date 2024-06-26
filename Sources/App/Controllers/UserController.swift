@@ -8,6 +8,7 @@
 import Foundation
 import Vapor
 import Fluent
+import GroceryAppSharedDTO
 
 //  /api/register
 //  /api/login
@@ -33,14 +34,16 @@ class UserController: RouteCollection {
         guard let existingUser = try await User.query(on: req.db)
             .filter(\.$username == user.username)
             .first() else {
-            throw Abort(.badRequest)
+//            throw Abort(.badRequest)
+            return LoginResponseDTO(error: true, reason: "Username not found.")
         }
         
         // validate the password
         let result = try await req.password.async.verify(user.password, created: existingUser.password)
         
         if !result {
-            throw Abort(.unauthorized)
+//            throw Abort(.unauthorized)
+            return LoginResponseDTO(error: true, reason: "Password is incorrect.")
         }
         
         // if result == true, generate the JWT token and return it to user
