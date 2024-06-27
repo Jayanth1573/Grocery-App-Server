@@ -14,10 +14,11 @@ public func configure(_ app: Application) async throws {
     
     // add migrations
     app.migrations.add(CreateUsersTableMigration())
-    
+    app.migrations.add(CreateGroceryCategoryTableMigration())
     
     // register controller
     try app.register(collection: UserController())
+    try app.register(collection: GroceryController())
     
     app.jwt.signers.use(.hs256(key: "SECRETKEY"))
     try routes(app)
