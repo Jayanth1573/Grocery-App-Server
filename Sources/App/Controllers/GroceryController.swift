@@ -15,7 +15,7 @@ class GroceryController: RouteCollection {
     func boot(routes: any RoutesBuilder) throws {
         
         // /api/users/:userId
-        let api = routes.grouped("api", "users", ":userId")
+        let api = routes.grouped("api", "users", ":userId").grouped(JSONWebTokenAuthenticator())
         
 //     POST:   /api/users/:userId/grocery-categories
         api.post("grocery-categories", use: saveGroceryCategory)
